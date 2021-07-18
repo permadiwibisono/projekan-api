@@ -1,0 +1,32 @@
+{
+  "name": "projekan-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "serve": "cross-env DEBUG=app:* nodemon index.js",
+    "start": "cross-env NODE_ENV=production node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/permadiwibisono/projekan-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/permadiwibisono/projekan-api/issues"
+  },
+  "homepage": "https://github.com/permadiwibisono/projekan-api#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "dayjs": "^1.10.6",
+    "debug": "^4.3.2",
+    "express": "^4.17.1",
+    "helmet": "^4.6.0",
+    "lodash": "^4.17.21",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.12"
+  }
+}
