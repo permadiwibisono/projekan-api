@@ -3,8 +3,9 @@ import App from "../app";
 
 const app = new App();
 
-(() => {
+(async () => {
   try {
+    await app.connect();
     app.init();
   } catch (error) {
     console.log("error boot app: ", error);

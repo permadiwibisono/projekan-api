@@ -21,6 +21,18 @@ class App {
   constructor() {
     this.host = express();
   }
+  async connect() {
+    log("DB connecting...");
+    await this.wait();
+    log("DB established...");
+  }
+  wait() {
+    return new Promise((res) => {
+      setTimeout(() => {
+        res(true);
+      }, 3000);
+    });
+  }
   init() {
     try {
       this.host.enable("trust proxy");
