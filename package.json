@@ -2,10 +2,12 @@
   "name": "projekan-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/bin/server.js",
   "scripts": {
-    "serve": "cross-env DEBUG=app:* nodemon index.js",
-    "start": "cross-env NODE_ENV=production node index.js"
+    "prebuild": "rimraf dist",
+    "build": "npm run prebuild && babel ./src --out-dir dist --copy-files",
+    "dev": "cross-env DEBUG=app:* nodemon --watch ./src --exec babel-node ./src/bin/server.js",
+    "start": "cross-env DEBUG=app:startup,app:log,app:error NODE_ENV=production node ./dist/bin/server.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +21,7 @@
   },
   "homepage": "https://github.com/permadiwibisono/projekan-api#readme",
   "dependencies": {
+    "compression": "^1.7.4",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
     "dayjs": "^1.10.6",
@@ -28,9 +31,17 @@
     "express-rate-limit": "^5.3.0",
     "helmet": "^4.6.0",
     "hpp": "^0.2.3",
+    "http-errors": "^1.8.0",
     "joi": "^17.4.1",
     "lodash": "^4.17.21",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.12"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.15.7",
+    "@babel/core": "^7.15.8",
+    "@babel/node": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
+    "rimraf": "^3.0.2"
   }
 }
