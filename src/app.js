@@ -27,7 +27,7 @@ class App {
     log("DB established...");
   }
 
-  static wait() {
+  wait() {
     return new Promise((res) => {
       setTimeout(() => {
         res(true);
