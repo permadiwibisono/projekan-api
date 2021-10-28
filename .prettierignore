@@ -1,0 +1,10 @@
+# /node_modules/* in the project root is ignored by default
+# build artefacts
+dist/*
+coverage/*
+
+# 3rd party libs
+/src/public/
+
+yarn.lock
+package-lock.json

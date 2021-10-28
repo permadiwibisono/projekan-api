@@ -1,6 +1,5 @@
-import { appConfig } from "../config";
-
 import Debug from "debug";
+import { appConfig } from "../config";
 
 const debug = Debug("app:error");
 
