@@ -7,7 +7,9 @@
     "prebuild": "rimraf dist",
     "build": "npm run prebuild && babel ./src --out-dir dist --copy-files",
     "dev": "cross-env DEBUG=app:* nodemon --watch ./src --exec babel-node ./src/bin/server.js",
-    "start": "cross-env DEBUG=app:startup,app:log,app:error NODE_ENV=production node ./dist/bin/server.js"
+    "start": "cross-env DEBUG=app:startup,app:log,app:error NODE_ENV=production node ./dist/bin/server.js",
+    "lint": "eslint \"src/**/*.js\"",
+    "format": "prettier --write \"src/**/*.js\""
   },
   "repository": {
     "type": "git",
@@ -42,6 +44,12 @@
     "@babel/core": "^7.15.8",
     "@babel/node": "^7.15.8",
     "@babel/preset-env": "^7.15.8",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.4.1",
     "rimraf": "^3.0.2"
   }
 }
