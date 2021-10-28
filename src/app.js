@@ -16,23 +16,25 @@ const log = Debug("app:startup");
 const errorLog = Debug("app:error");
 
 class App {
-  host;
-  server;
   constructor() {
     this.host = express();
+    this.server = null;
   }
+
   async connect() {
     log("DB connecting...");
     await this.wait();
     log("DB established...");
   }
-  wait() {
+
+  static wait() {
     return new Promise((res) => {
       setTimeout(() => {
         res(true);
       }, 3000);
     });
   }
+
   init() {
     try {
       this.host.enable("trust proxy");
@@ -47,8 +49,8 @@ class App {
       log("hpp enabled");
       this.host.use(
         morgan(
-          "[:date[iso]] :method :url :status :res[content-length] - :response-time ms"
-        )
+          "[:date[iso]] :method :url :status :res[content-length] - :response-time ms",
+        ),
       );
       log("morgan enabled");
       if (appConfig.env === "production") {
@@ -61,18 +63,18 @@ class App {
         log("express-rate-limit enabled");
       }
 
-      //register routes
+      // register routes
       this.host.get("/", (_, res) =>
-        res.json({ message: "Hello world", statusCode: 200 })
+        res.json({ message: "Hello world", statusCode: 200 }),
       );
-      this.host.get("/foo", (_, res) => {
+      this.host.get("/foo", () => {
         throw Error("Foo Error");
       });
 
-      //not found error
+      // not found error
       this.host.use(notFoundMiddleware);
 
-      //simple error middleware
+      // simple error middleware
       this.host.use(errorMiddleware);
     } catch (error) {
       errorLog("📌 Error was occurred");
