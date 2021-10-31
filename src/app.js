@@ -6,25 +6,19 @@ import morgan from "morgan";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import hpp from "hpp";
-import dayjs from "dayjs";
-import Debug from "debug";
+import { date, AppLog } from "./utils";
 import { errorMiddleware, notFoundMiddleware } from "./middlewares";
 import { appConfig } from "./config";
-
-dayjs.locale("id");
-const log = Debug("app:startup");
-const errorLog = Debug("app:error");
 
 class App {
   constructor() {
     this.host = express();
-    this.server = null;
   }
 
   async connect() {
-    log("DB connecting...");
+    AppLog.startup("DB connecting...");
     await this.wait();
-    log("DB established...");
+    AppLog.startup("DB established...");
   }
 
   wait() {
@@ -42,17 +36,17 @@ class App {
       this.host.use(json());
       this.host.use(urlencoded({ extended: true }));
       this.host.use(cors());
-      log("cors enabled");
+      AppLog.log("cors enabled");
       this.host.use(helmet());
-      log("helmet enabled");
+      AppLog.log("helmet enabled");
       this.host.use(hpp());
-      log("hpp enabled");
+      AppLog.log("hpp enabled");
       this.host.use(
         morgan(
           "[:date[iso]] :method :url :status :res[content-length] - :response-time ms",
         ),
       );
-      log("morgan enabled");
+      AppLog.log("morgan enabled");
       if (appConfig.env === "production") {
         const limiter = rateLimit({
           windowMs: 15 * 60 * 1000,
@@ -60,7 +54,7 @@ class App {
         });
         //  apply to all requests
         this.host.use(limiter);
-        log("express-rate-limit enabled");
+        AppLog.log("express-rate-limit enabled");
       }
 
       // register routes
@@ -76,8 +70,9 @@ class App {
 
       // simple error middleware
       this.host.use(errorMiddleware);
+      AppLog.startup(`Server Started at ${date().format()}`);
     } catch (error) {
-      errorLog("📌 Error was occurred");
+      AppLog.error("📌 Error was occurred");
       throw error;
     }
   }
