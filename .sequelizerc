@@ -1,10 +1,9 @@
-
-"use strict";
-
 require("@babel/register");
-require("@babel/polyfill");
 
 const path = require("path");
+
+process.env.SEQUELIZE_CLI = true;
+
 module.exports = {
   "config": path.resolve("./src/config", "sequelize-cli.js"),
   "models-path": path.resolve("./src/services/sequelize/models"),
