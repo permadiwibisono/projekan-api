@@ -10,6 +10,7 @@ import { date, AppLog } from "./utils";
 import { errorMiddleware, notFoundMiddleware } from "./middlewares";
 import { appConfig } from "./config";
 import { sequelizeConnect } from "./services/sequelize";
+import { AppKey } from "./services/sequelize/models";
 
 class App {
   constructor() {
@@ -20,6 +21,8 @@ class App {
     AppLog.startup("DB connecting...");
     await sequelizeConnect();
     AppLog.startup("DB established...");
+    const data = await AppKey.findAll();
+    AppLog.log("Getting data: ", data);
   }
 
   init() {
