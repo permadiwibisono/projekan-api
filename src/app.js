@@ -9,6 +9,7 @@ import hpp from "hpp";
 import { date, AppLog } from "./utils";
 import { errorMiddleware, notFoundMiddleware } from "./middlewares";
 import { appConfig } from "./config";
+import { sequelizeConnect } from "./services/sequelize";
 
 class App {
   constructor() {
@@ -17,16 +18,8 @@ class App {
 
   async connect() {
     AppLog.startup("DB connecting...");
-    await this.wait();
+    await sequelizeConnect();
     AppLog.startup("DB established...");
-  }
-
-  wait() {
-    return new Promise((res) => {
-      setTimeout(() => {
-        res(true);
-      }, 3000);
-    });
   }
 
   init() {
