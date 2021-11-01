@@ -8,7 +8,7 @@ import rateLimit from "express-rate-limit";
 import hpp from "hpp";
 import { date, AppLog } from "./utils";
 import { errorMiddleware, notFoundMiddleware } from "./middlewares";
-import { appConfig } from "./config";
+import { appConfig, appDBConfig } from "./config";
 import { sequelizeConnect } from "./services/sequelize";
 import { AppKey } from "./services/sequelize/models";
 
@@ -18,15 +18,17 @@ class App {
   }
 
   async connect() {
+    AppLog.debug("DB Config: ", JSON.stringify(appDBConfig));
     AppLog.startup("DB connecting...");
     await sequelizeConnect();
     AppLog.startup("DB established...");
     const data = await AppKey.findAll();
-    AppLog.log("Getting data: ", data);
+    AppLog.log("Getting data: ", JSON.stringify(data));
   }
 
   init() {
     try {
+      AppLog.debug("App Config: ", JSON.stringify(appConfig));
       this.host.enable("trust proxy");
       this.host.use(compression());
       this.host.use(json());
