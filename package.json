@@ -31,7 +31,6 @@
   },
   "homepage": "https://github.com/permadiwibisono/projekan-api#readme",
   "dependencies": {
-    "@babel/polyfill": "^7.12.1",
     "@babel/register": "^7.16.0",
     "@babel/runtime": "^7.15.4",
     "compression": "^1.7.4",
