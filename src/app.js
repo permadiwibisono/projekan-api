@@ -7,7 +7,11 @@ import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import hpp from "hpp";
 import { date, AppLog } from "./utils";
-import { errorMiddleware, notFoundMiddleware } from "./middlewares";
+import {
+  apiMiddleware,
+  errorMiddleware,
+  notFoundMiddleware,
+} from "./middlewares";
 import { appConfig, appDBConfig } from "./config";
 import { sequelizeConnect } from "./services/sequelize";
 import { ApiKey } from "./services/sequelize/models";
@@ -61,6 +65,12 @@ class App {
       );
       this.host.get("/foo", () => {
         throw Error("Foo Error");
+      });
+      this.host.get("/v1/bar", [apiMiddleware], (_, res) => {
+        res.json({
+          message: "Hello world, u can access the endpoint",
+          statusCode: 200,
+        });
       });
 
       // not found error
