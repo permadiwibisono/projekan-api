@@ -3,9 +3,9 @@ import { generateKey } from "../../../utils/hash";
 import { DefaultModelOptions } from "../constants";
 import Sequelize from "../sequelize";
 
-class AppKey extends Model {}
+class ApiKey extends Model {}
 
-AppKey.init(
+ApiKey.init(
   {
     name: {
       type: DataTypes.STRING,
@@ -25,4 +25,4 @@ AppKey.init(
   },
 );
 
-export default AppKey;
+export default ApiKey;

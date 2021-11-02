@@ -1,3 +1,3 @@
-import AppKey from "./app-key";
+import ApiKey from "./api-key";
 
-export { AppKey };
+export { ApiKey };
