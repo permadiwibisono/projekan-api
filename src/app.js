@@ -68,7 +68,9 @@ class App {
 
       // simple error middleware
       this.host.use(errorMiddleware);
-      AppLog.startup(`Server Started at ${date().format()}`);
+      AppLog.startup(
+        `Server Started with PORT:${appConfig.port} at ${date().format()}`,
+      );
     } catch (error) {
       AppLog.error("📌 Error was occurred");
       throw error;
