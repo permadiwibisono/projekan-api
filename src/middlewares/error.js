@@ -1,14 +1,12 @@
-import Debug from "debug";
 import { appConfig } from "../config";
-
-const debug = Debug("app:error");
+import { AppLog } from "../utils";
 
 export const errorMiddleware = (err, _, res, next) => {
   if (res.headersSent) {
     next(err);
   } else {
     const message = err.message || "Internal server error";
-    debug("error --> ", `message: ${message}`, message, err);
+    AppLog.debug("error --> ", `message: ${message}`);
     let result = {
       message:
         appConfig.env === "development" ? message : "Internal server error",

@@ -8,8 +8,9 @@ import rateLimit from "express-rate-limit";
 import hpp from "hpp";
 import { date, AppLog } from "./utils";
 import { errorMiddleware, notFoundMiddleware } from "./middlewares";
-import { appConfig } from "./config";
+import { appConfig, appDBConfig } from "./config";
 import { sequelizeConnect } from "./services/sequelize";
+import routes from "./routes";
 
 class App {
   constructor() {
@@ -17,6 +18,7 @@ class App {
   }
 
   async connect() {
+    AppLog.debug("DB Config: ", JSON.stringify(appDBConfig));
     AppLog.startup("DB connecting...");
     await sequelizeConnect();
     AppLog.startup("DB established...");
@@ -24,6 +26,7 @@ class App {
 
   init() {
     try {
+      AppLog.debug("App Config: ", JSON.stringify(appConfig));
       this.host.enable("trust proxy");
       this.host.use(compression());
       this.host.use(json());
@@ -51,19 +54,16 @@ class App {
       }
 
       // register routes
-      this.host.get("/", (_, res) =>
-        res.json({ message: "Hello world", statusCode: 200 }),
-      );
-      this.host.get("/foo", () => {
-        throw Error("Foo Error");
-      });
+      this.host.use(routes);
 
       // not found error
       this.host.use(notFoundMiddleware);
 
       // simple error middleware
       this.host.use(errorMiddleware);
-      AppLog.startup(`Server Started at ${date().format()}`);
+      AppLog.startup(
+        `Server Started with PORT:${appConfig.port} at ${date().format()}`,
+      );
     } catch (error) {
       AppLog.error("📌 Error was occurred");
       throw error;

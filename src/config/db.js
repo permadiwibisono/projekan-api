@@ -1,18 +1,25 @@
 import "dotenv/config";
+import { appConfig } from "./app";
 
-const options = {
+let options = {
   define: {
     charset: "utf8",
     collate: "utf8_general_ci",
   },
-  pool: {
-    max: process.env.DB_POOL_MAX ? parseInt(process.env.DB_POOL_MAX, 10) : 5,
-    min: process.env.DB_POOL_MIN ? parseInt(process.env.DB_POOL_MIN, 10) : 1,
-    acquire: process.env.DB_POOL_ACQUIRE || "60000",
-    idle: process.env.DB_POOL_ACQUIRE || "15000",
-  },
   timezone: "+07:00",
 };
+
+if (!process.env.SEQUELIZE_CLI) {
+  options = {
+    ...options,
+    pool: {
+      max: process.env.DB_POOL_MAX ? parseInt(process.env.DB_POOL_MAX, 10) : 5,
+      min: process.env.DB_POOL_MIN ? parseInt(process.env.DB_POOL_MIN, 10) : 1,
+      acquire: process.env.DB_POOL_ACQUIRE || "60000",
+      idle: process.env.DB_POOL_ACQUIRE || "15000",
+    },
+  };
+}
 
 export const db = {
   development: {
@@ -43,3 +50,7 @@ export const db = {
     ...options,
   },
 };
+
+const appDBConfig = db[appConfig.env];
+
+export default appDBConfig;
