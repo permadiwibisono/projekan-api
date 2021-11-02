@@ -7,14 +7,10 @@ import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import hpp from "hpp";
 import { date, AppLog } from "./utils";
-import {
-  apiMiddleware,
-  errorMiddleware,
-  notFoundMiddleware,
-} from "./middlewares";
+import { errorMiddleware, notFoundMiddleware } from "./middlewares";
 import { appConfig, appDBConfig } from "./config";
 import { sequelizeConnect } from "./services/sequelize";
-import { ApiKey } from "./services/sequelize/models";
+import routes from "./routes";
 
 class App {
   constructor() {
@@ -26,8 +22,6 @@ class App {
     AppLog.startup("DB connecting...");
     await sequelizeConnect();
     AppLog.startup("DB established...");
-    const data = await ApiKey.findAll();
-    AppLog.log("Getting data: ", JSON.stringify(data));
   }
 
   init() {
@@ -60,18 +54,7 @@ class App {
       }
 
       // register routes
-      this.host.get("/", (_, res) =>
-        res.json({ message: "Hello world", statusCode: 200 }),
-      );
-      this.host.get("/foo", () => {
-        throw Error("Foo Error");
-      });
-      this.host.get("/v1/bar", [apiMiddleware], (_, res) => {
-        res.json({
-          message: "Hello world, u can access the endpoint",
-          statusCode: 200,
-        });
-      });
+      this.host.use(routes);
 
       // not found error
       this.host.use(notFoundMiddleware);
