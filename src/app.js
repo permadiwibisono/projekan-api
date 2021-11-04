@@ -1,4 +1,3 @@
-import "dayjs/locale/id";
 import express, { json, urlencoded } from "express";
 import compression from "compression";
 import cors from "cors";

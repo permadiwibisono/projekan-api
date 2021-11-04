@@ -1,12 +1,12 @@
 import Sequelize from "sequelize";
-import { AppKey } from "../models";
+import { ApiKey } from "../models";
 
 const project = "Projekan";
 export default {
   up: async (queryInterface) => {
     const transaction = await queryInterface.sequelize.transaction();
     try {
-      await AppKey.findOrCreate({
+      await ApiKey.findOrCreate({
         where: { name: `${project}-web` },
         transaction,
       });
@@ -20,7 +20,7 @@ export default {
   down: async (queryInterface) => {
     const transaction = await queryInterface.sequelize.transaction();
     try {
-      await AppKey.destroy(
+      await ApiKey.destroy(
         {
           where: { name: { [Sequelize.Op.in]: [`${project}-web`] } },
         },
