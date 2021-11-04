@@ -3,16 +3,6 @@ import http from "http";
 import App from "../app";
 
 const app = new App();
-
-(async () => {
-  try {
-    await app.connect();
-    app.init();
-  } catch (error) {
-    console.log("error boot app: ", error);
-  }
-})();
-
 const { host } = app;
 
 /**
@@ -37,14 +27,12 @@ const normalizePort = (val) => {
 /**
  * Get port from environment and store in Express.
  */
-
 const port = normalizePort(process.env.PORT || "5000");
 host.set("port", port);
 
 /**
  * Create HTTP server.
  */
-
 const server = http.createServer(host);
 
 /**
@@ -84,9 +72,38 @@ const onListening = () => {
   console.log(`Listening on ${bind}`);
 };
 
+(async () => {
+  try {
+    await app.connect();
+    app.init();
+
+    // Listen on provided port, on all network interfaces.
+    server.listen(port);
+    server.on("error", onError);
+    server.on("listening", onListening);
+  } catch (error) {
+    console.log("error boot app: ", error);
+  }
+})();
+
 /**
- * Listen on provided port, on all network interfaces.
+ * Event listener for process "exit" event.
  */
-server.listen(port);
-server.on("error", onError);
-server.on("listening", onListening);
+const onShutdown = (signal) => {
+  const exitCode = signal === "uncaughtException" ? 1 : 0;
+  console.log(`Server stop running.. Receiving Signal: ${signal}`);
+  server.close(() => {
+    process.exit(exitCode);
+  });
+};
+
+process
+  .on("SIGTERM", onShutdown)
+  .on("SIGINT", onShutdown)
+  .on("uncaughtException", onShutdown);
+
+process.on("exit", (code) => {
+  console.log(`Server is going to exit with code: ${code}`);
+});
+
+export default server;
