@@ -7,6 +7,7 @@ export const errorMiddleware = (err, _, res, next) => {
   } else {
     const message = err.message || "Internal server error";
     AppLog.debug("error --> ", `message: ${message}`);
+    AppLog.error(err);
     let result = {
       message:
         appConfig.env === "development" ? message : "Internal server error",
