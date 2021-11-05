@@ -4,7 +4,7 @@ import { appConfig } from "../config";
 import { randomStr } from "./strings";
 
 export const verifyHash = async (plainText, hash) => {
-  const result = await argon2.verify(plainText, hash);
+  const result = await argon2.verify(hash, plainText);
   return result;
 };
 
