@@ -1,8 +1,10 @@
 import { Model, DataTypes } from "sequelize";
+import { omit } from "lodash";
 import { DefaultModelOptions } from "../constants";
 import Sequelize from "../sequelize";
 
 import { passwordHash, verifyHash } from "../../../utils/hash";
+import { jwtSign, jwtVerify, generateKey } from "../../../utils";
 
 const hidden = ["password"];
 
@@ -14,6 +16,19 @@ class User extends Model {
   async genPasswordHash(plainText) {
     const hash = await passwordHash(plainText);
     this.setDataValue("password", hash);
+  }
+
+  generateToken() {
+    const data = omit(this.toJSON(), hidden);
+    return jwtSign({ sub: this.getDataValue("email"), ...data });
+  }
+
+  static generateRefreshToken(key) {
+    return generateKey(key);
+  }
+
+  static verifyToken(token, options = {}) {
+    return jwtVerify(token, options);
   }
 }
 
