@@ -5,33 +5,60 @@ import morgan from "morgan";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import hpp from "hpp";
+import cookieParser from "cookie-parser";
+import session from "express-session";
+import connect from "connect-redis";
 import { date, AppLog } from "./utils";
 import { errorMiddleware, notFoundMiddleware } from "./middlewares";
-import { appConfig, appDBConfig } from "./config";
+import { appConfig } from "./config";
 import { sequelizeConnect } from "./services/sequelize";
+import { initRedisClient } from "./services/redis";
 import routes from "./routes";
+import { SESSION_NAME } from "./constants";
 
 class App {
   constructor() {
     this.host = express();
+    this.redis = initRedisClient();
   }
 
   async connect() {
-    AppLog.debug("DB Config: ", JSON.stringify(appDBConfig));
     AppLog.startup("DB connecting...");
     await sequelizeConnect();
     AppLog.startup("DB established...");
+
+    AppLog.startup("Redis connecting...");
+    const res = await this.redis.ping();
+    AppLog.startup("Redis connected:", res);
   }
 
   init() {
     try {
-      AppLog.debug("App Config: ", JSON.stringify(appConfig));
-      this.host.enable("trust proxy");
+      if (appConfig.env === "production") this.host.enable("trust proxy");
+
       this.host.use(compression());
       this.host.use(json());
       this.host.use(urlencoded({ extended: true }));
       this.host.use(cors());
       AppLog.log("cors enabled");
+
+      const Store = connect(session);
+      this.host.use(cookieParser(appConfig.session.secret));
+      this.host.use(
+        session({
+          name: SESSION_NAME,
+          saveUninitialized: false,
+          resave: false,
+          store: new Store({
+            client: this.redis,
+            disableTouch: false,
+          }),
+          cookie: appConfig.cookies,
+          secret: appConfig.session.secret,
+        }),
+      );
+      AppLog.log("session enabled");
+
       this.host.use(helmet());
       AppLog.log("helmet enabled");
       this.host.use(hpp());
