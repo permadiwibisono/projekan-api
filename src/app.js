@@ -5,6 +5,7 @@ import morgan from "morgan";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import hpp from "hpp";
+import cookieParser from "cookie-parser";
 import session from "express-session";
 import connect from "connect-redis";
 import { date, AppLog } from "./utils";
@@ -42,6 +43,7 @@ class App {
       AppLog.log("cors enabled");
 
       const Store = connect(session);
+      this.host.use(cookieParser(appConfig.session.secret));
       this.host.use(
         session({
           name: SESSION_NAME,
