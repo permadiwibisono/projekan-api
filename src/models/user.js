@@ -1,10 +1,10 @@
-import { Model, DataTypes } from "sequelize";
 import { omit } from "lodash";
-import { DefaultModelOptions } from "../constants";
-import Sequelize from "../sequelize";
+import { DataTypes, Model } from "sequelize";
 
-import { passwordHash, verifyHash } from "../../../utils/hash";
-import { jwtSign, jwtVerify, generateKey } from "../../../utils";
+import { Sequelize } from "../services/sequelize";
+import { DefaultModelOptions } from "../services/sequelize/constants";
+import { generateKey, jwtSign, jwtVerify } from "../utils";
+import { passwordHash, verifyHash } from "../utils/hash";
 
 const hidden = ["password"];
 

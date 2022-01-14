@@ -12,7 +12,7 @@ export const appConfig = {
   key: process.env.APP_KEY,
   env: process.env.NODE_ENV || "development",
   stage: process.env.APP_STAGE || "local",
-  port: process.env.PORT || 5000,
+  port: process.env.PORT || 4000,
   session: {
     secret: process.env.SESSION_SECRET,
   },

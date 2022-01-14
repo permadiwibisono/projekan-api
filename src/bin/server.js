@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import http from "http";
+
 import App from "../app";
 
 const app = new App();
@@ -27,7 +28,7 @@ const normalizePort = (val) => {
 /**
  * Get port from environment and store in Express.
  */
-const port = normalizePort(process.env.PORT || "5000");
+const port = normalizePort(process.env.PORT || "4000");
 host.set("port", port);
 
 /**

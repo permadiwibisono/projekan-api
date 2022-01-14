@@ -1,20 +1,21 @@
-import express, { json, urlencoded } from "express";
 import compression from "compression";
-import cors from "cors";
-import morgan from "morgan";
-import helmet from "helmet";
-import rateLimit from "express-rate-limit";
-import hpp from "hpp";
-import cookieParser from "cookie-parser";
-import session from "express-session";
 import connect from "connect-redis";
-import { date, AppLog } from "./utils";
-import { errorMiddleware, notFoundMiddleware } from "./middlewares";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import express, { json, urlencoded } from "express";
+import rateLimit from "express-rate-limit";
+import session from "express-session";
+import helmet from "helmet";
+import hpp from "hpp";
+import morgan from "morgan";
+
 import { appConfig } from "./config";
-import { sequelizeConnect } from "./services/sequelize";
-import { initRedisClient } from "./services/redis";
-import routes from "./routes";
 import { SESSION_NAME } from "./constants";
+import { errorMiddleware, notFoundMiddleware } from "./middlewares";
+import routes from "./routes";
+import { initRedisClient } from "./services/redis";
+import { sequelizeConnect } from "./services/sequelize";
+import { AppLog, date } from "./utils";
 
 class App {
   constructor() {

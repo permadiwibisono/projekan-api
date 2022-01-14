@@ -1,4 +1,5 @@
 import Sequelize from "sequelize";
+
 import { DbTimestampField } from "../constants";
 
 export default {

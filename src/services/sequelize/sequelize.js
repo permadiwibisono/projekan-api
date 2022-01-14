@@ -1,5 +1,6 @@
 import Sequelize from "sequelize";
-import { db as dbConfig, appConfig } from "../../config";
+
+import { appConfig, db as dbConfig } from "../../config";
 import { createDebug } from "../../utils";
 
 const config = dbConfig[appConfig.env];

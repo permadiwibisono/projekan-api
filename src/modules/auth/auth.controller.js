@@ -1,9 +1,7 @@
-import express from "express";
 import { omit } from "lodash";
-import UnauthorizedError from "../../errors/unauthorized.error";
-import ValidatorError from "../../errors/validator.error";
-import { authMiddleware } from "../../middlewares";
-import { User } from "../../services/sequelize/models";
+
+import { UnauthorizedError, ValidatorError } from "../../commons/errors";
+import { User } from "../../models";
 import { authSession, date, logoutSession } from "../../utils";
 
 export const loginAction = async (req, res, next) => {
@@ -62,11 +60,3 @@ export const logoutAction = async (req, res, next) => {
     next(error);
   }
 };
-
-const router = express.Router();
-
-router.post("/login", loginAction);
-router.get("/me", authMiddleware, profileAction);
-router.post("/logout", authMiddleware, logoutAction);
-
-export default router;

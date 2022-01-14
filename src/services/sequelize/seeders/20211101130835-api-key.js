@@ -1,5 +1,6 @@
 import Sequelize from "sequelize";
-import { ApiKey } from "../models";
+
+import { ApiKey } from "../../../models";
 
 const project = "Projekan";
 export default {

@@ -3,10 +3,15 @@ require("@babel/register");
 const path = require("path");
 
 process.env.SEQUELIZE_CLI = true;
+const prod = process.env.NODE_ENV === "production";
+let folder = "src";
+if (prod) {
+  folder = "dist";
+}
 
 module.exports = {
-  "config": path.resolve("./src/config", "sequelize-cli.js"),
-  "models-path": path.resolve("./src/services/sequelize/models"),
-  "seeders-path": path.resolve("./src/services/sequelize/seeders"),
-  "migrations-path": path.resolve("./src/services/sequelize/migrations"),
+  config: path.resolve(folder, "config", "sequelize-cli.js"),
+  "models-path": path.resolve(folder, "models"),
+  "seeders-path": path.resolve(folder, "services/sequelize/seeders"),
+  "migrations-path": path.resolve(folder, "services/sequelize/migrations"),
 };

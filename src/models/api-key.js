@@ -1,7 +1,8 @@
-import { Model, DataTypes } from "sequelize";
-import { generateKey } from "../../../utils/hash";
-import { DefaultModelOptions } from "../constants";
-import Sequelize from "../sequelize";
+import { DataTypes, Model } from "sequelize";
+
+import { Sequelize } from "../services/sequelize";
+import { DefaultModelOptions } from "../services/sequelize/constants";
+import { generateKey } from "../utils/hash";
 
 class ApiKey extends Model {}
 

@@ -1,7 +1,7 @@
+import { UnauthorizedError } from "../commons/errors";
 import { COOKIE_REFRESH_TOKEN } from "../constants";
-import UnauthorizedError from "../errors/unauthorized.error";
+import { User } from "../models";
 import { initRedisClient } from "../services/redis";
-import { User } from "../services/sequelize/models";
 import {
   AppLog,
   authSession,

@@ -10,6 +10,7 @@
     "dev": "cross-env DEBUG=app:*,db:* nodemon --watch ./src --exec babel-node ./src/bin/server.js",
     "start": "cross-env DEBUG=app:*,-app:debug NODE_ENV=production node ./dist/bin/server.js",
     "lint": "eslint \"src/**/*.js\"",
+    "lint:fix": "eslint \"src/**/*.js\" --fix",
     "format": "prettier --write \"src/**/*.js\""
   },
   "lint-staged": {
@@ -68,8 +69,9 @@
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
     "husky": "^7.0.0",
     "lint-staged": "^11.2.6",
     "prettier": "^2.4.1",

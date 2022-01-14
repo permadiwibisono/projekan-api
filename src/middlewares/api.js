@@ -1,4 +1,4 @@
-import { ApiKey } from "../services/sequelize/models";
+import { ApiKey } from "../models";
 import { AppLog } from "../utils";
 
 export const apiMiddleware = async (req, res, next) => {

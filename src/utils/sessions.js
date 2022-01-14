@@ -1,5 +1,5 @@
-import { SESSION_NAME, COOKIE_REFRESH_TOKEN } from "../constants";
 import { appConfig, jwtConfig } from "../config";
+import { COOKIE_REFRESH_TOKEN, SESSION_NAME } from "../constants";
 import { initRedisClient } from "../services/redis";
 
 export const authSession = async (

@@ -1,5 +1,6 @@
-import crypto from "crypto";
 import argon2 from "argon2";
+import crypto from "crypto";
+
 import { appConfig } from "../config";
 import { randomStr } from "./strings";
 
